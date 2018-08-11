@@ -1,0 +1,33 @@
+## First Question
+
+news=> select A.title, count(L.path) as views from log L join articles A on L.path ILIKE concat('%', A.slug, '%') where L.status ILIKE concat('%','200','%') group by A.title order by count(L.path) desc limit 3;
+              title               | views
+----------------------------------+--------
+ Candidate is jerk, alleges rival | 338647
+ Bears love berries, alleges bear | 253801
+ Bad things gone, say good people | 170098
+(3 rows)
+
+===================================================================================================================
+## Second Question
+
+news=> select Ath.name, count(L.path) as views from log L join articles A on L.path ILIKE concat('%', A.slug, '%') join authors Ath on A.author = Ath.id where L.status ILIKE concat('%','200','%') group by Ath.name order by count(L.path) desc;
+          name          | views
+------------------------+--------
+ Ursula La Multa        | 507594
+ Rudolf von Treppenwitz | 423457
+ Anonymous Contributor  | 170098
+ Markoff Chaney         |  84557
+(4 rows)
+
+===================================================================================================================
+## Third Question
+
+select 	date(time) as Day, 
+	count(date(time)) as Requests, 
+	count( case when status not ilike '%ok%' then 1 else null end) as Wrong_Requests, 
+(count( case when status not ilike '%ok%' then 1 else null end) / cast(count(date(time)) as float))*100 as percentage 
+from  log group by Day having 
+cast (((count( case when status not ilike '%ok%' then 1 else null end) / cast(count(date(time)) as float))*100) as integer) > 1
+order by Day;
+select 	date(time) as Day, count(date(time)) as Requests, count( case when status not ilike '%ok%' then 1 else null end) as Wrong_Requests, (count( case when status not ilike '%ok%' then 1 else null end) / cast(count(date(time)) as float))*100 as percentage from log group by Day having cast (((count( case when status not ilike '%ok%' then 1 else null end) / cast(count(date(time)) as float))*100) as integer) > 1 order by Day;
