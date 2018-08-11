@@ -7,11 +7,9 @@ This project is the first project in Udacity Full Stack Web Developer Nanodegree
 ## Prerequisits
 - VM VirtualBox
 - Vagrant
-- Python3
 
 ## How to run the project?
 - Setup [VM VirtualBox](https://www.virtualbox.org/)
 - Setup [Vagrant](https://www.vagrantup.com/downloads.html)
 - Run `vagrant up`
 - Run `vagrant ssh`
-- Run `python report-tool.py`
